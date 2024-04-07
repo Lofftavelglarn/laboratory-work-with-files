@@ -22,7 +22,7 @@ public:
 signals:
     void sendEvent(FileEvent fileEvent);
 private:
-    QString path; //QString
+    QString path;
     long long int size;
     bool firstRun = true;
     long long int previousSize;

@@ -3,13 +3,25 @@
 FileApplication::FileApplication(QObject *parent): QObject{parent}
 {
     QTextStream textStreamOut(stdout);
+    QTextStream textStreamIn(stdin);
     textStreamOut << "How many files do you need to monitor?" << Qt::endl;
     textStreamOut.flush();
     int numFiles;
-    QTextStream textStreamIn(stdin);
-    textStreamOut << "Enter the number of your files: ";
-    textStreamOut.flush();
-    textStreamIn >> numFiles;
+    bool ok = false;
+
+    while(!ok){
+        textStreamOut << "Enter the number of your files: ";
+        textStreamOut.flush();
+        textStreamIn >> numFiles;
+        if (textStreamIn.status() == QTextStream::Ok) {
+            ok = true;
+        } else{
+            textStreamIn.resetStatus();
+            textStreamIn.readLine();
+            textStreamOut << "Invalid input. Please enter a valid number." << Qt::endl;
+        }
+    }
+
     handlers = std::vector<IHandler*>();
 
     for(int i = 0; i < numFiles; i++){
@@ -18,7 +30,6 @@ FileApplication::FileApplication(QObject *parent): QObject{parent}
         textStreamOut << "File " << i+1 << ": ";
         textStreamOut.flush();
         textStreamIn >> string;
-        // D:\\xd\\xd.txt
         fileHandler->setPath(string);
         handlers.push_back(fileHandler);
         connect(fileHandler, &FileHandler::sendEvent, this, &FileApplication::handleEvent);
