@@ -11,6 +11,7 @@ SOURCES += \
         FileHandler.cpp \
         fileapplication.cpp \
         fileevent.cpp \
+        filelogger.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -21,5 +22,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     FileHandler.h \
     IHandler.h \
+    ILogger.h \
     fileapplication.h \
-    fileevent.h
+    fileevent.h \
+    filelogger.h

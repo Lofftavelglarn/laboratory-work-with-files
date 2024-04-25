@@ -1,6 +1,6 @@
 #include "fileapplication.h"
 
-FileApplication::FileApplication(QObject *parent): QObject{parent}
+FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{parent}
 {
     QTextStream textStreamOut(stdout);
     QTextStream textStreamIn(stdin);
@@ -32,8 +32,10 @@ FileApplication::FileApplication(QObject *parent): QObject{parent}
         textStreamIn >> string;
         fileHandler->setPath(string);
         handlers.push_back(fileHandler);
+
         connect(fileHandler, &FileHandler::sendEvent, this, &FileApplication::handleEvent);
     }
+    this->logger = logger;
     mainTimer = new QTimer(this);
     connect(mainTimer, &QTimer::timeout, this, &FileApplication::handle);
     mainTimer->start(100);
@@ -46,6 +48,5 @@ void FileApplication::handle(){
 }
 
 void FileApplication::handleEvent(FileEvent fileEvent){
-    QTextStream textStreamOut(stdout);
-    textStreamOut << fileEvent.generateMessage();
+    logger->logging(fileEvent.generateMessage());
 }
