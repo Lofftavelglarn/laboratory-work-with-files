@@ -13,17 +13,14 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
         textStreamOut << "Enter the number of your files: ";
         textStreamOut.flush();
         textStreamIn >> numFiles;
-        if (textStreamIn.status() == QTextStream::Ok) {
-            ok = true;
-        } else{
+        if (textStreamIn.status() != QTextStream::Ok || numFiles <= 0) {
             textStreamIn.resetStatus();
             textStreamIn.readLine();
             textStreamOut << "Invalid input. Please enter a valid number." << Qt::endl;
+        } else{
+            ok = true;
         }
     }
-
-    handlers = std::vector<IHandler*>();
-
     for(int i = 0; i < numFiles; i++){
         FileHandler *fileHandler = new FileHandler(this);
         QString string;
@@ -31,7 +28,8 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
         textStreamOut.flush();
         textStreamIn >> string;
         fileHandler->setPath(string);
-        handlers.push_back(fileHandler);
+        //for(auto j = 0; j < handlers.size(); j++){}
+        this->handlers.push_back(fileHandler);
 
         connect(fileHandler, &FileHandler::sendEvent, this, &FileApplication::handleEvent);
     }
@@ -42,7 +40,7 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
 }
 
 void FileApplication::handle(){
-    for(auto x: handlers){
+    for(auto x: this->handlers){
         x->handle();
     }
 }
