@@ -1,11 +1,9 @@
 #ifndef ILOGGER_H
 #define ILOGGER_H
 
-#include<QString>
+#include <QString>
 
-
-
-class ILogger{
+class ILogger {
 public:
     virtual void logging(QString s) = 0;
 };

@@ -1,68 +1,66 @@
 #include "FileHandler.h"
 
-FileHandler::FileHandler(QObject *parent): QObject{parent}{
+FileHandler::FileHandler(QObject* parent) : QObject{parent} {}
 
-}
-
-void FileHandler::handle(){
+void FileHandler::handle() {
     FileEvent fileEvent = FileEvent();
-    fileEvent.path = this->path;
+    fileEvent.setPath(this->path);
 
-    if(firstRun == true){
-        if(this->exist()){
+    if (firstRun) {
+        if (this->exist()) {
             long long int fileSize = this->checkSize();
-            fileEvent.size = fileSize;
-            fileEvent.status = FileEvent::Exist;
+            fileEvent.setSize(fileSize);
+            fileEvent.setStatus(FileEvent::Exist);
             firstRun = false;
             previousStatus = "Exist";
             previousSize = fileSize;
-        } else{
-            fileEvent.status = FileEvent::NotExist;
+        } else {
+            fileEvent.setStatus(FileEvent::NotExist);
             firstRun = false;
-            previousStatus = QString("NotExist");
+            previousStatus = "NotExist";
         }
-    } else{
-        if((previousStatus == QString("NotExist") || previousStatus == QString("Deleted")) && this->exist()){
-            fileEvent.status = FileEvent::Created;
+    } else {
+        if ((previousStatus == "NotExist" || previousStatus == "Deleted") &&
+            this->exist()) {
+            fileEvent.setStatus(FileEvent::Created);
+            long long fileSize = this->checkSize();
+            fileEvent.setSize(fileSize);
             previousStatus = "Created";
-            long long int fileSize = this->checkSize();
-            fileEvent.size = fileSize;
             previousSize = fileSize;
         }
 
-        if((previousStatus != QString("NotExist") && previousStatus != QString("Deleted")) && !this->exist()){
-            fileEvent.status = FileEvent::Deleted;
+        if ((previousStatus != "NotExist" && previousStatus != "Deleted") &&
+            !this->exist()) {
+            fileEvent.setStatus(FileEvent::Deleted);
             previousStatus = "Deleted";
         }
-        if(previousStatus != QString("NotExist") && previousStatus != QString("Deleted")){
-            long long int fileSize = this->checkSize();
-            if(previousSize != fileSize){
-                fileEvent.status = FileEvent::Edited;
+
+        if ((previousStatus != "NotExist" && previousStatus != "Deleted")) {
+            long long fileSize = this->checkSize();
+            if (previousSize != fileSize) {
+                fileEvent.setStatus(FileEvent::Edited);
+                fileEvent.setSize(fileSize);
                 previousStatus = "Edited";
-                fileEvent.size = fileSize;
                 previousSize = fileSize;
             }
         }
     }
-    if(fileEvent.status != FileEvent::None){
+
+    if (fileEvent.getStatus() != FileEvent::None) {
         emit sendEvent(fileEvent);
     }
 }
 
-bool FileHandler::exist(){
+bool FileHandler::exist() {
     QFile file(this->path);
     return file.exists();
 }
 
-long long int FileHandler::checkSize(){
+long long int FileHandler::checkSize() {
     QFile file(this->path);
     return file.size();
 }
 
-void FileHandler::setPath(QString path){
-    this->path = path;
-}
+void FileHandler::setPath(const QString& path) { this->path = path; }
 
-QString FileHandler::getPath(){
-    return path;
-}
+QString FileHandler::getPath() const { return path; }

@@ -1,16 +1,14 @@
 #ifndef FILELOGGER_H
 #define FILELOGGER_H
 
+#include "ILogger.h"
 #include <QObject>
 #include <QTextStream>
-#include "ILogger.h"
 
-
-class FileLogger:public QObject, public ILogger
-{
+class FileLogger : public QObject, public ILogger {
     Q_OBJECT
 public:
-    explicit FileLogger(QObject *parent = nullptr);
+    explicit FileLogger(QObject* parent = nullptr);
     virtual void logging(QString s) override;
 };
 

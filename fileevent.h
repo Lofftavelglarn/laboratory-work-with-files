@@ -3,11 +3,9 @@
 
 #include <QString>
 
-class FileEvent
-{
+class FileEvent {
 public:
     FileEvent();
-    QString path;
     enum Status{
         Deleted,
         Created,
@@ -16,9 +14,21 @@ public:
         NotExist,
         None
     };
-    Status status = None;
-    long long int size;
+    FileEvent(const QString& path, Status status, long long size = 0);
     QString generateMessage();
+    QString getPath() const;
+    void setPath(const QString& newPath);
+
+    Status getStatus() const;
+    void setStatus(Status newStatus);
+
+    long long getSize() const;
+    void setSize(long long newSize);
+
+private:
+    QString path;
+    Status status;
+    long long int size;
 };
 
 #endif // FILEEVENT_H
