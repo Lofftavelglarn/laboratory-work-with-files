@@ -1,9 +1,10 @@
 #ifndef FILELOGGER_H
 #define FILELOGGER_H
 
-#include "ILogger.h"
 #include <QObject>
 #include <QTextStream>
+#include "ILogger.h"
+
 
 class FileLogger:public QObject, public ILogger
 {

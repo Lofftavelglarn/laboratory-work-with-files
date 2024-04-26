@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QTextStream>
 #include <QFile>
-#include <iostream>
-#include <cstdio>
 #include "IHandler.h"
 #include "fileevent.h"
 
