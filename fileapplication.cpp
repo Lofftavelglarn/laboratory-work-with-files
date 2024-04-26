@@ -21,6 +21,9 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
             ok = true;
         }
     }
+
+    handlers = std::vector<IHandler*>();
+
     for(int i = 0; i < numFiles; i++){
         FileHandler *fileHandler = new FileHandler(this);
         QString string;
@@ -28,8 +31,8 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
         textStreamOut.flush();
         textStreamIn >> string;
         fileHandler->setPath(string);
-        //for(auto j = 0; j < handlers.size(); j++){}
-        this->handlers.push_back(fileHandler);
+        //добавить проверки одинаковых путей и правильности пути до файла
+        handlers.push_back(fileHandler);
 
         connect(fileHandler, &FileHandler::sendEvent, this, &FileApplication::handleEvent);
     }
@@ -40,7 +43,7 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
 }
 
 void FileApplication::handle(){
-    for(auto x: this->handlers){
+    for(auto x: handlers){
         x->handle();
     }
 }

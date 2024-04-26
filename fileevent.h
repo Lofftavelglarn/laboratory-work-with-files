@@ -1,7 +1,7 @@
 #ifndef FILEEVENT_H
 #define FILEEVENT_H
 
-#include<QString>
+#include <QString>
 
 class FileEvent
 {
