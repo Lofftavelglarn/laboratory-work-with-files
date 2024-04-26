@@ -13,12 +13,12 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
         textStreamOut << "Enter the number of your files: ";
         textStreamOut.flush();
         textStreamIn >> numFiles;
-        if (textStreamIn.status() == QTextStream::Ok) {
-            ok = true;
-        } else{
+        if (textStreamIn.status() != QTextStream::Ok || numFiles <= 0) {
             textStreamIn.resetStatus();
             textStreamIn.readLine();
             textStreamOut << "Invalid input. Please enter a valid number." << Qt::endl;
+        } else{
+            ok = true;
         }
     }
 
@@ -31,6 +31,7 @@ FileApplication::FileApplication(ILogger *logger, QObject *parent): QObject{pare
         textStreamOut.flush();
         textStreamIn >> string;
         fileHandler->setPath(string);
+        //добавить проверки одинаковых путей и правильности пути до файла
         handlers.push_back(fileHandler);
 
         connect(fileHandler, &FileHandler::sendEvent, this, &FileApplication::handleEvent);

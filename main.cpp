@@ -1,6 +1,7 @@
-#include "filelogger.h"
 #include <QCoreApplication>
-#include <fileapplication.h>
+#include "fileapplication.h"
+#include "filelogger.h"
+
 
 int main(int argc, char *argv[])
 {

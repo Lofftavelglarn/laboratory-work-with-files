@@ -4,6 +4,7 @@
 #include<QString>
 
 
+
 class ILogger{
 public:
     virtual void logging(QString s) = 0;
