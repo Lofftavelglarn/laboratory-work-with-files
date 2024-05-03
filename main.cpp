@@ -6,5 +6,6 @@ int main(int argc, char* argv[]) {
     QCoreApplication a(argc, argv);
     FileLogger* logger = new FileLogger(&a);
     FileApplication::getInstance(logger, &a);
+    FileApplication::getInstance().configureFileApp();
     return a.exec();
 }

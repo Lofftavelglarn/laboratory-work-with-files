@@ -7,18 +7,15 @@
 #include <QObject>
 #include <QTextStream>
 
-class FileHandler : public QObject, public IHandler {
+class FileHandler : public IHandler {
     Q_OBJECT
 public:
-    explicit FileHandler(QObject* parent = nullptr);
+    explicit FileHandler(QObject* parent = nullptr, const QString& path = nullptr);
 
     virtual QString getPath() const override;
-    void setPath(const QString& path);
 
     virtual void handle() override;
 
-signals:
-    void sendEvent(FileEvent fileEvent);
 
 private:
     QString path;

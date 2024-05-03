@@ -5,7 +5,6 @@
 
 class FileEvent {
 public:
-    FileEvent();
     enum Status{
         Deleted,
         Created,
@@ -14,10 +13,10 @@ public:
         NotExist,
         None
     };
-    FileEvent(const QString& path, Status status, long long size = 0);
+    FileEvent(const QString& path, Status status = None, long long size = 0);
     QString generateMessage();
+
     QString getPath() const;
-    void setPath(const QString& newPath);
 
     Status getStatus() const;
     void setStatus(Status newStatus);

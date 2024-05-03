@@ -1,10 +1,11 @@
 #include "FileHandler.h"
 
-FileHandler::FileHandler(QObject* parent) : QObject{parent} {}
+FileHandler::FileHandler(QObject *parent, const QString &path): IHandler{parent}{
+    this->path = path;
+}
 
 void FileHandler::handle() {
-    FileEvent fileEvent = FileEvent();
-    fileEvent.setPath(this->path);
+    FileEvent fileEvent = FileEvent(path);
 
     if (firstRun) {
         if (this->exist()) {
@@ -60,7 +61,5 @@ long long int FileHandler::checkSize() {
     QFile file(this->path);
     return file.size();
 }
-
-void FileHandler::setPath(const QString& path) { this->path = path; }
 
 QString FileHandler::getPath() const { return path; }

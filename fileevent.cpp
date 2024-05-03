@@ -1,7 +1,5 @@
 #include "fileevent.h"
 
-FileEvent::FileEvent() : status(None), size(0) {}
-
 FileEvent::FileEvent(const QString& path, Status status, long long size)
     : path(path), status(status), size(size) {}
 
@@ -10,8 +8,6 @@ QString FileEvent::getPath() const { return path; }
 FileEvent::Status FileEvent::getStatus() const { return status; }
 
 long long FileEvent::getSize() const { return size; }
-
-void FileEvent::setPath(const QString& newPath) { path = newPath; }
 
 void FileEvent::setStatus(Status newStatus) { status = newStatus; }
 

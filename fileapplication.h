@@ -5,26 +5,27 @@
 #include "IHandler.h"
 #include "ILogger.h"
 #include <QObject>
-#include <QRegExp>
 #include <QTimer>
 #include <vector>
 
 class FileApplication : public QObject {
     Q_OBJECT
 public:
-    static FileApplication* getInstance(ILogger* logger = nullptr,
+    static FileApplication& getInstance(ILogger* logger = nullptr,
                                         QObject* parent = nullptr) {
         static FileApplication instance(logger, parent);
-        return &instance;
+        return instance;
     }
 
     FileApplication(const FileApplication&) = delete;
-    void operator=(const FileApplication&) = delete;
+    FileApplication operator=(const FileApplication&) = delete;
+
+    void configureFileApp();
 
 private:
     explicit FileApplication(ILogger* logger, QObject* parent = nullptr);
 
-    std::vector<IHandler*> handlers;
+    std::vector<IHandler*> files;
     QTimer* mainTimer;
     ILogger* logger;
 
