@@ -51,9 +51,12 @@ void FileApplication::configureFileApp() {
             --i;
         } else {
             IHandler* file = new FileHandler(this, path);
-            files.push_back(file);
-            connect(file, &IHandler::sendEvent, this,
-                    &FileApplication::handleEvent);
+
+            if(file) {
+                files.push_back(file);
+                connect(file, &IHandler::sendEvent, this,
+                        &FileApplication::handleEvent);
+            }
         }
     }
 }

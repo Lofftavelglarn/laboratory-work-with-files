@@ -1,8 +1,6 @@
 #include "FileHandler.h"
 
-FileHandler::FileHandler(QObject *parent, const QString &path): IHandler{parent}{
-    this->path = path;
-}
+FileHandler::FileHandler(QObject *parent, const QString &path): IHandler{parent}, path(path) {}
 
 void FileHandler::handle() {
     FileEvent fileEvent = FileEvent(path);
