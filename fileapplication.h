@@ -20,16 +20,16 @@ public:
     FileApplication(const FileApplication&) = delete;
     FileApplication operator=(const FileApplication&) = delete;
 
-    void configureFileApp();
+    bool checkFiles(const QString &path);
+    void addFile(const QString &path);
+    void deleteFile(const QString &path);
+    void handle();
 
 private:
     explicit FileApplication(ILogger* logger, QObject* parent = nullptr);
 
     std::vector<IHandler*> files;
-    QTimer* mainTimer;
     ILogger* logger;
-
-    void handle();
 
 public slots:
     void handleEvent(FileEvent fileEvent);
